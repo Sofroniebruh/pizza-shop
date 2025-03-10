@@ -52,7 +52,7 @@ export default function Home() {
                                     image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
                                 },
                             ]
-                        } categoryId={1} title={"Pizzas"} className={"mb-10"}>
+                        } categoryId={1} name={"Pizzas"} className={"mb-10"}>
                         </CardsItems>
                         <CardsItems items={
                             [
@@ -87,7 +87,7 @@ export default function Home() {
                                     image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
                                 },
                             ]
-                        } categoryId={2} title={"Breakfasts"} className={"mb-5"}>
+                        } categoryId={2} name={"Combos"} className={"mb-5"}>
                         </CardsItems>
                     </div>
                 </div>
