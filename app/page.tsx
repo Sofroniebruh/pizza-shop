@@ -3,6 +3,8 @@ import Categories from "@/components/shared-components/categories";
 import SortPopup from "@/components/shared-components/sort-popup";
 import TopBar from "@/components/shared-components/top-bar";
 import Filtering from "@/components/shared-components/filtering";
+import CardComponent from "@/components/shared-components/card-component";
+import CardsItems from "@/components/shared-components/cards-items";
 
 export default function Home() {
     return (
@@ -17,7 +19,76 @@ export default function Home() {
                         <Filtering/>
                     </div>
                     <div className={"w-3/4"}>
-                        Content
+                        <CardsItems items={
+                            [
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                            ]
+                        } categoryId={1} title={"Pizzas"} className={"mb-10"}>
+                        </CardsItems>
+                        <CardsItems items={
+                            [
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                                {
+                                    name: "Pizza",
+                                    price: 10,
+                                    image: "https://media.dodostatic.net/image/r:233x233/11ee7d60fda22358ac33c6a44eb093a2.avif"
+                                },
+                            ]
+                        } categoryId={2} title={"Breakfasts"} className={"mb-5"}>
+                        </CardsItems>
                     </div>
                 </div>
             </Common>
