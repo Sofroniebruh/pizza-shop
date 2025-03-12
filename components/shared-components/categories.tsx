@@ -14,8 +14,6 @@ export default function Categories({className}: { className?: string }) {
         }
     };
 
-
-
     return (
         <div className={cn("inline-flex rounded-2xl gap-1 bg-gray-50 p-1", className)}>
             {categories.map((category, index) => (
