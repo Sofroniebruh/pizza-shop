@@ -117,7 +117,7 @@ export const products = [
     },
     {
         name: 'Coffee Latte',
-        imageUrl: '/coffee_latte.png',
+        imageUrl: '/coffee_latte.webp',
         categoryId: 2,
     },
     {

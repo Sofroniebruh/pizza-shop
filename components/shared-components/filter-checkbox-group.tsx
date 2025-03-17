@@ -1,7 +1,7 @@
 "use client"
 
 import FilterCheckbox, {FilterCheckBoxInterface} from "@/components/shared-components/filter-checkbox";
-import {Button, Input} from "@/components/ui";
+import {Input, Skeleton} from "@/components/ui";
 import React, {useState} from "react";
 import {cn} from "@/lib/utils";
 
@@ -10,9 +10,11 @@ interface CheckBoxProps {
     items: FilterCheckBoxInterface[],
     defaultItems: FilterCheckBoxInterface[],
     limit: number,
+    loading: boolean,
     searchInputPlaceholder: string,
-    onChange?: (values: string[]) => void,
-    defaultValue?: string[]
+    onChange?: (values: string) => void,
+    defaultValue?: string[],
+    selectedIds?: Set<string>,
     className?: string
 }
 
@@ -22,8 +24,10 @@ export default function FilterCheckboxGroup(
         items,
         defaultItems,
         limit,
+        loading,
         searchInputPlaceholder,
         onChange,
+        selectedIds,
         defaultValue,
         className
     }
@@ -38,33 +42,53 @@ export default function FilterCheckboxGroup(
         setInputValue(e.target.value)
     }
 
-    return (
-        <div className={className}>
-            <p className={"font-bold mb-3"}>{title}</p>
-            {showAll &&
-                <div>
-                    <Input onChange={onChangeInput} placeholder={searchInputPlaceholder}
-                           className={"border-none bg-gray-50"}></Input>
+    if (loading) {
+        return (
+            <div className={className}>
+                <p className="font-bold mb-3">{title}</p>
+
+                <div className={"flex flex-col gap-4"}>
+                    {Array(limit).fill(0).map((_, index) => (
+                        <div key={index} className="mb-4">
+                            <Skeleton className="h-6 rounded-[8px]"/>
+                        </div>
+                    ))}
+                    <Skeleton className={"w-28 h-6 mb-4 rounded-[8px]"}/>
                 </div>
-            }
-            <div className={"flex flex-col mt-5 gap-4 max-h-96 overflow-auto scrollbar"}>
-                {list.map((item, i) => (
-                    <FilterCheckbox text={item.text}
-                                    value={item.value}
-                                    checked={false}
-                                    endAdornment={item.endAdornment}
-                                    key={i}
-                                    onCheckedChange={item.onCheckedChange}
-                    />
-                ))}
             </div>
-            {items.length > limit &&
-                <div className={cn(showAll ? "border-t mt-4" : "", "")}>
-                    <button className={"mt-4 text-primary cursor-pointer"}
-                            onClick={() => setShowAll(!showAll)}>{showAll ? "Hide" : "+ Show All"}</button>
+        );
+    }
+
+    return (
+        <>
+            <div className={className}>
+                <p className={"font-bold mb-3"}>{title}</p>
+                {showAll &&
+                    <div>
+                        <Input onChange={onChangeInput} placeholder={searchInputPlaceholder}
+                               className={"border-none bg-gray-50"}></Input>
+                    </div>
+                }
+                <div className={"flex flex-col mt-5 gap-4 max-h-96 overflow-auto scrollbar"}>
+                    {list.map((item, i) => (
+                        <FilterCheckbox text={item.text}
+                                        value={item.value}
+                                        checked={selectedIds?.has(item.value)}
+                                        endAdornment={item.endAdornment}
+                                        name={"ingredients"}
+                                        key={i}
+                                        onCheckedChange={() => onChange?.(item.value)}
+                        />
+                    ))}
                 </div>
-            }
-        </div>
+                {items.length > limit &&
+                    <div className={cn(showAll ? "border-t mt-4" : "", "")}>
+                        <button className={"mt-4 text-primary cursor-pointer"}
+                                onClick={() => setShowAll(!showAll)}>{showAll ? "Hide" : "+ Show All"}</button>
+                    </div>
+                }
+            </div>
+        </>
     )
 
 }

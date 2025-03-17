@@ -6,20 +6,28 @@ export interface FilterCheckBoxInterface {
     value: string,
     endAdornment?: React.ReactNode,
     onCheckedChange?: () => void,
-    checked?: boolean
+    checked?: boolean,
+    name?: string,
 }
 
-export default function FilterCheckbox({text, value, endAdornment, onCheckedChange, checked}: FilterCheckBoxInterface) {
+export default function FilterCheckbox({
+                                           text,
+                                           value,
+                                           endAdornment,
+                                           onCheckedChange,
+                                           checked,
+                                           name
+                                       }: FilterCheckBoxInterface) {
     return (
         <div className={"flex items-center gap-2"}>
             <Checkbox
                 onCheckedChange={onCheckedChange}
                 value={value}
                 className="rounded-[8px] w-6 h-6"
-                id={`checkbox-${String(value)}`}
+                id={`checkbox-${name}-${String(value)}`}
                 checked={checked}>
             </Checkbox>
-            <label htmlFor={`checkbox-${String(value)}`} className={"leading-none cursor-pointer"}>
+            <label htmlFor={`checkbox-${name}-${String(value)}`} className={"leading-none cursor-pointer"}>
                 {text}
             </label>
         </div>

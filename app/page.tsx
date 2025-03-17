@@ -1,9 +1,6 @@
 import Common from "@/components/shared-components/common";
-import Categories from "@/components/shared-components/categories";
-import SortPopup from "@/components/shared-components/sort-popup";
 import TopBar from "@/components/shared-components/top-bar";
 import Filtering from "@/components/shared-components/filtering";
-import CardComponent from "@/components/shared-components/card-component";
 import CardsItems from "@/components/shared-components/cards-items";
 
 export default function Home() {

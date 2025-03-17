@@ -2,19 +2,25 @@ import Common from "@/components/shared-components/common";
 import Image from "next/image";
 import {Button} from "@/components/ui";
 import {ArrowRightIcon, LogInIcon, ShoppingCartIcon, UserIcon} from "lucide-react";
+import HeaderInput from "@/components/shared-components/header-input";
+import Link from "next/link";
 
 export default function HeaderElement() {
     return (
         <header className={"border-b border-gray-200"}>
             <Common className="flex items-center justify-between py-8">
-                <div className={"flex items-center gap-4"}>
-                    <Image src={"/logo.png"} alt="Logo" width={32} height={32}/>
-                    <div>
-                        <h1 className={"text-2xl uppercase font-black"}>PizzaStore</h1>
-                        <p className={"leading-3 text-sm text-gray-400"}>Best pizza in your city</p>
+                <Link href="/">
+                    <div className={"flex items-center gap-4"}>
+                        <Image src={"/logo.png"} alt="Logo" width={32} height={32}/>
+                        <div>
+                            <h1 className={"text-2xl uppercase font-black"}>PizzaStore</h1>
+                            <p className={"leading-3 text-sm text-gray-400"}>Best pizza in your city</p>
+                        </div>
                     </div>
+                </Link>
+                <div className={"flex-1 mx-14"}>
+                    <HeaderInput/>
                 </div>
-                <div>hello</div>
                 <div className={"flex gap-4 items-center"}>
                     <Button variant={"outline"}
                             className={"flex gap-1 cursor-pointer items-center"}><UserIcon></UserIcon>Login</Button>
