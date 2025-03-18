@@ -47,15 +47,35 @@ export default function Filtering({className}: { className?: string }) {
         <div className={className}>
             <h3 className={"text-xl font-semibold pb-8"}>Filtering</h3>
             <div className={"flex flex-col gap-4"}>
-                <FilterCheckbox text={"New in"} name={"NewIn"} value={"1"}></FilterCheckbox>
-                <FilterCheckbox text={"Build yourself"} name={"Build"} value={"2"}></FilterCheckbox>
+                <FilterCheckboxGroup
+                    className={""}
+                    title={"Dough types"}
+                    items={[
+                        {text: 'Thin', value: '1'},
+                        {text: 'Traditional', value: '2'},
+                    ]}
+                    onChange={(value: string) => toggle(value)}
+                    selectedIds={selectedIds}
+                />
+                <FilterCheckboxGroup
+                    className={""}
+                    title={"Sizes"}
+                    items={[
+                        {text: '20 cm', value: '20'},
+                        {text: '30 cm', value: '30'},
+                        {text: '40 cm', value: '40'},
+                    ]}
+                    onChange={(value: string) => toggle(value)}
+                    selectedIds={selectedIds}
+                />
             </div>
             <div className={"border-t border-gray-200 mt-7 py-4"}>
                 <p className={"mb-2 font-semibold"}>Price range:</p>
                 <div className={"flex gap-3"}>
-                    <Input type={"number"} placeholder={"0"} min={0} max={30} defaultValue={prices.priceFrom}
+                    <Input type={"number"} placeholder={"0"} min={0} max={30}
+                           value={prices.priceFrom}
                            onChange={(e) => handlePriceChange("priceFrom", Number(e.target.value))}></Input>
-                    <Input type={"number"} min={0} max={30} defaultValue={prices.priceTo}
+                    <Input type={"number"} min={0} max={30} value={prices.priceTo}
                            onChange={(e) => handlePriceChange("priceTo", Number(e.target.value))}></Input>
                 </div>
                 <div className={"mt-4"}>

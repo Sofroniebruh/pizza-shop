@@ -64,7 +64,7 @@ export default function HeaderInput() {
                     {Array.isArray(products) && products.length > 0 && (
                         products.map((product: Product, index) => (
                             <Link href={`/product/${product.id}`} key={index} onClick={handleClick}>
-                                <div className={"flex gap-3 items-center hover:bg-primary"}>
+                                <div className={"flex gap-3 items-center hover:bg-primary/5 rounded-sm"}>
                                     <Image src={product.imageUrl} width={44} height={44} alt={"product_image"}></Image>
                                     <p className={"text-md"}>{product.name}</p>
                                 </div>

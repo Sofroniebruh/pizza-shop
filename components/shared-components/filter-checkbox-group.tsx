@@ -8,10 +8,10 @@ import {cn} from "@/lib/utils";
 interface CheckBoxProps {
     title: string,
     items: FilterCheckBoxInterface[],
-    defaultItems: FilterCheckBoxInterface[],
-    limit: number,
-    loading: boolean,
-    searchInputPlaceholder: string,
+    searchInputPlaceholder?: string,
+    loading?: boolean,
+    limit?: number,
+    defaultItems?: FilterCheckBoxInterface[],
     onChange?: (values: string) => void,
     defaultValue?: string[],
     selectedIds?: Set<string>,
@@ -37,7 +37,7 @@ export default function FilterCheckboxGroup(
     const [showAll, setShowAll] = useState(false);
     const [inputValue, setInputValue] = useState("");
 
-    const list = showAll ? items.filter((item) => item.text.toLowerCase().includes(inputValue.toLowerCase())) : defaultItems.slice(0, limit)
+    const list = showAll ? items.filter((item) => item.text.toLowerCase().includes(inputValue.toLowerCase())) : (items || defaultItems).slice(0, limit)
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value)
     }
@@ -70,7 +70,7 @@ export default function FilterCheckboxGroup(
                     </div>
                 }
                 <div className={"flex flex-col mt-5 gap-4 max-h-96 overflow-auto scrollbar"}>
-                    {list.map((item, i) => (
+                    {list && list.map((item, i) => (
                         <FilterCheckbox text={item.text}
                                         value={item.value}
                                         checked={selectedIds?.has(item.value)}
@@ -81,7 +81,7 @@ export default function FilterCheckboxGroup(
                         />
                     ))}
                 </div>
-                {items.length > limit &&
+                {limit && items.length > limit &&
                     <div className={cn(showAll ? "border-t mt-4" : "", "")}>
                         <button className={"mt-4 text-primary cursor-pointer"}
                                 onClick={() => setShowAll(!showAll)}>{showAll ? "Hide" : "+ Show All"}</button>
