@@ -1,47 +1,24 @@
 "use client"
 
-import FilterCheckbox from "@/components/shared-components/filter-checkbox";
 import {Input} from "@/components/ui";
 import {RangeSlider} from "@/components/shared-components/range-slider";
 import FilterCheckboxGroup from "@/components/shared-components/filter-checkbox-group";
 import {Ingredient} from "@prisma/client";
-import {useEffect, useState} from "react";
-import {API} from "@/lib/services/api_client";
-import {toast} from "sonner";
-import {useSet} from "react-use";
-
-interface PriceProps {
-    priceFrom: number,
-    priceTo: number,
-}
+import {useIngredients} from "@/components/hooks/use-ingredients";
+import {useFilters} from "@/components/hooks/use-filters";
+import {useQueryFilters} from "@/components/hooks/use-query-filters";
 
 export default function Filtering({className}: { className?: string }) {
-    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const {ingredients, isLoading} = useIngredients()
+    const filters = useFilters()
+    useQueryFilters(filters)
+
     const validatedIngredients = ingredients.map((ingredient: Ingredient) => ({
         value: String(ingredient.id),
         text: ingredient.name
     }));
-    const [selectedIds, {toggle}] = useSet(new Set<string>([]))
-    const [prices, setPrices] = useState<PriceProps>({priceFrom: 0, priceTo: 30});
 
-    const handlePriceChange = (name: keyof PriceProps, amount: number) => {
-        setPrices({
-            ...prices,
-            [name]: amount
-        })
-    }
-
-    useEffect(() => {
-        setIsLoading(true)
-        API.ingredients.GET_INGREDIENTS().then(
-            (data) => {
-                setIngredients(data);
-                setIsLoading(false);
-            }
-        ).catch(error => toast("Something went wrong!"))
-            .finally(() => setIsLoading(false));
-    }, [])
+    console.log(filters.selectedIngredients)
 
     return (
         <div className={className}>
@@ -54,8 +31,8 @@ export default function Filtering({className}: { className?: string }) {
                         {text: 'Thin', value: '1'},
                         {text: 'Traditional', value: '2'},
                     ]}
-                    onChange={(value: string) => toggle(value)}
-                    selectedIds={selectedIds}
+                    onChange={(value: string) => filters.setPizzaTypes(value)}
+                    selectedIds={filters.pizzaTypes}
                 />
                 <FilterCheckboxGroup
                     className={""}
@@ -65,22 +42,23 @@ export default function Filtering({className}: { className?: string }) {
                         {text: '30 cm', value: '30'},
                         {text: '40 cm', value: '40'},
                     ]}
-                    onChange={(value: string) => toggle(value)}
-                    selectedIds={selectedIds}
+                    onChange={(value: string) => filters.setPizzaSizes(value)}
+                    selectedIds={filters.pizzaSizes}
                 />
             </div>
             <div className={"border-t border-gray-200 mt-7 py-4"}>
                 <p className={"mb-2 font-semibold"}>Price range:</p>
                 <div className={"flex gap-3"}>
                     <Input type={"number"} placeholder={"0"} min={0} max={30}
-                           value={prices.priceFrom}
-                           onChange={(e) => handlePriceChange("priceFrom", Number(e.target.value))}></Input>
-                    <Input type={"number"} min={0} max={30} value={prices.priceTo}
-                           onChange={(e) => handlePriceChange("priceTo", Number(e.target.value))}></Input>
+                           value={filters.prices.priceFrom || 0}
+                           onChange={(e) => filters.handlePriceChange("priceFrom", Number(e.target.value))}></Input>
+                    <Input type={"number"} min={0} max={30} value={filters.prices.priceTo || 30}
+                           onChange={(e) => filters.handlePriceChange("priceTo", Number(e.target.value))}></Input>
                 </div>
                 <div className={"mt-4"}>
-                    <RangeSlider min={0} max={30} step={1} value={[prices.priceFrom, prices.priceTo]}
-                                 onValueChange={([from, to]) => setPrices({
+                    <RangeSlider min={0} max={30} step={1}
+                                 value={[filters.prices.priceFrom || 0, filters.prices.priceTo || 30]}
+                                 onValueChange={([from, to]) => filters.setPrices({
                                      priceFrom: from,
                                      priceTo: to
                                  })}></RangeSlider>
@@ -93,8 +71,8 @@ export default function Filtering({className}: { className?: string }) {
                     limit={6}
                     searchInputPlaceholder={"Search for ingredients"}
                     loading={isLoading}
-                    onChange={(value: string) => toggle(value)}
-                    selectedIds={selectedIds}
+                    onChange={(value: string) => filters.setSelectedIngredients(value)}
+                    selectedIds={filters.selectedIngredients}
                 />
             </div>
         </div>
