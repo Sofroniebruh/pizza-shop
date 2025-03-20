@@ -23,7 +23,6 @@ export default function HeaderInput() {
 
     useEffect(() => {
         setError(false)
-        console.log(API.products.GET_PRODUCTS(searchParams))
         API.products.GET_PRODUCTS(searchParams).then((data) => {
                 setProducts(data);
             }
@@ -31,8 +30,6 @@ export default function HeaderInput() {
             setError(true)
         })
     }, [searchParams])
-
-    console.log("Products goida: " + products)
 
     const handleClick = () => {
         setIsFocused(false);
@@ -63,7 +60,7 @@ export default function HeaderInput() {
                     )}>
                     {Array.isArray(products) && products.length > 0 && (
                         products.map((product: Product, index) => (
-                            <Link href={`/product/${product.id}`} key={index} onClick={handleClick}>
+                            <Link href={`/app/(root)/product/${product.id}`} key={index} onClick={handleClick}>
                                 <div className={"flex gap-3 items-center hover:bg-primary/5 rounded-sm"}>
                                     <Image src={product.imageUrl} width={44} height={44} alt={"product_image"}></Image>
                                     <p className={"text-md"}>{product.name}</p>

@@ -18,7 +18,6 @@ export default function Filtering({className}: { className?: string }) {
         text: ingredient.name
     }));
 
-    console.log(filters.selectedIngredients)
 
     return (
         <div className={className}>

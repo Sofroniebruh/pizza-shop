@@ -19,7 +19,7 @@ const generateProductVariation = ({
 }) => {
     return {
         productId,
-        price: randomDecimalNumber(190, 600),
+        price: randomDecimalNumber(1, 30),
         productType,
         size,
     } as Prisma.VariationUncheckedCreateInput;

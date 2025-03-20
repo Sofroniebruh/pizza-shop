@@ -1,5 +1,7 @@
+import type {Metadata} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
-import "./globals.css";
+import "../globals.css";
+import Header from "@/components/shared-components/header";
 import {Toaster} from "@/components/ui/sonner";
 
 const geistSans = Geist({
@@ -12,21 +14,24 @@ const geistMono = Geist_Mono({
     subsets: ["latin"],
 });
 
-export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+export const metadata: Metadata = {
+    title: "PizzaStore",
+    description: "Fresh and delicious pizza",
+};
+
+export default function DashboardLayout({
+                                            children,
+                                        }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
         <html lang="en">
-        <head>
-            <link href="/logo.png" rel={"icon"} data-rh={"true"}></link>
-            <title></title>
-        </head>
         <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-        {children}
+        <main className={"min-h-screen"}>
+            {children}
+        </main>
         <Toaster></Toaster>
         </body>
         </html>

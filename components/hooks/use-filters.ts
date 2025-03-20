@@ -28,7 +28,7 @@ export const useFilters = () => {
     ))
 
     const [pizzaTypes, {toggle: togglePizzaTypes}] = useSet(new Set<string>(
-        searchParams.get("types") ? searchParams.get("types")?.split(",") : []
+        searchParams.get("pizzaTypes") ? searchParams.get("pizzaTypes")?.split(",") : []
     ))
 
     const handlePriceChange = (name: keyof PriceProps, amount: number) => {

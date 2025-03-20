@@ -17,7 +17,6 @@ export const useQueryFilters = (filters: Filters) => {
     const memoizedFilters = useMemo(() => params, [params]);
 
     useEffect(() => {
-        // updateQuery();
         const query = qs.stringify(memoizedFilters, {arrayFormat: "comma"});
 
         if (searchParams.toString() === query) return;
