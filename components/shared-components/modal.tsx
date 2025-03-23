@@ -18,7 +18,7 @@ export default function Modal({product}: { product: ProductWithRelations }) {
     return (
         <Dialog open={Boolean(product)} onOpenChange={router.back}>
             <VisuallyHidden><DialogTitle></DialogTitle></VisuallyHidden>
-            <DialogContent className={"w-[1000px]"}>
+            <DialogContent className={"w-[1100px]"}>
                 {
                     isPizza
                         ?
