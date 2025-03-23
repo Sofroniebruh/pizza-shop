@@ -6,7 +6,7 @@ export default function useOnScreen(ref: RefObject<HTMLElement | null>) {
 
     useEffect(() => {
         refObject.current = new IntersectionObserver(([entry]) => {
-            setIsOnScreen(entry.isIntersecting)
+            setIsOnScreen(entry.isIntersecting);
         }, {threshold: 0.4, rootMargin: '0px'});
     }, [])
 

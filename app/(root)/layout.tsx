@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
 import Header from "@/components/shared-components/header";
-import {Toaster} from "@/components/ui/sonner";
+import React from "react";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -20,12 +20,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
                                        children,
+                                       modal
                                    }: Readonly<{
     children: React.ReactNode;
+    modal: React.ReactNode;
 }>) {
     return (
         <main className={"min-h-screen"}>
             <Header/>
+            {modal}
             {children}
         </main>
     );

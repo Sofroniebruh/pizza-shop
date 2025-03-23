@@ -16,7 +16,7 @@ interface CardProps {
 
 export default function CardComponent({id, title, image, price, className, ingredients}: CardProps) {
     return (
-        <Link href={`/products/${id}`}>
+        <Link href={`/product/${id}`}>
             <div className={cn("flex flex-col items-center gap-4", className)}>
                 <div className={"flex flex-col w-full"}>
                     <div>
