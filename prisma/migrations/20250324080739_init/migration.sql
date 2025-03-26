@@ -30,7 +30,7 @@ CREATE TABLE "Category" (
 CREATE TABLE "Product" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "imageURL" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "categoryId" INTEGER NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE "Ingredient" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "imageUrl" TEXT NOT NULL,
-    "price" INTEGER NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "Ingredient_pkey" PRIMARY KEY ("id")
 );
