@@ -13,6 +13,7 @@ import { PizzaSizesType, PizzaTypesType } from "@/types/prisma-types";
 export const CartDrawer = ({ children, className }: { children: React.ReactNode, className?: string }) => {
   const fetchCartItems = useCartStore(state => state.fetchCartItems);
   const updateItemQuantity = useCartStore(state => state.updateItemQuantity);
+  const removeCartItem = useCartStore(state => state.removeCartItem);
   const totalAmount = useCartStore(state => state.totalAmount);
   const items = useCartStore(state => state.items);
 
@@ -46,6 +47,7 @@ export const CartDrawer = ({ children, className }: { children: React.ReactNode,
                               price={item.price}
                               quantity={item.quantity}
                               onClickUpdateQuantity={(type) => onClickUpdateButton(item.id, item.quantity, type)}
+                              removeCartItem={() => removeCartItem(item.id)}
               />
             ))
           }

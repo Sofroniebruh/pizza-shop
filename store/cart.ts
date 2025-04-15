@@ -55,5 +55,16 @@ export const useCartStore = create<CartState>((set, get) => ({
     }
   },
   addCartItem: (values: any) => Promise.resolve(),
-  removeCartItem: (id: number) => Promise.resolve(),
+  removeCartItem: async (id: number) => {
+    try {
+      set({ loading: true, error: false });
+      const data = await API.cartItems.DELETE_CART_ITEM(id);
+      set(getCartDetails(data));
+    } catch (error) {
+      console.log(error);
+      set({ error: true });
+    } finally {
+      set({ error: false });
+    }
+  },
 }));

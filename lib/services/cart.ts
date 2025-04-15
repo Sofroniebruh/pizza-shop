@@ -24,3 +24,15 @@ export async function UPDATE_CART_QUANTITY(itemId: number, quantity: number): Pr
 
   throw new Error(response.statusText);
 }
+
+export async function DELETE_CART_ITEM(itemId: number): Promise<CartDTO> {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/cart/${itemId}`, {
+    method: "DELETE",
+  });
+
+  if (response.ok) {
+    return await response.json();
+  }
+
+  throw new Error(response.statusText);
+}
