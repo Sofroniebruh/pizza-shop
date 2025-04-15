@@ -4,6 +4,7 @@ import { Button } from "@/components/ui";
 import { ArrowRightIcon, ShoppingCartIcon, UserIcon } from "lucide-react";
 import HeaderInput from "@/components/shared-components/header-input";
 import Link from "next/link";
+import { CartDrawer } from "@/components/cart";
 
 export default function HeaderElement() {
   return (
@@ -24,16 +25,18 @@ export default function HeaderElement() {
         <div className={"flex gap-4 items-center"}>
           <Button variant={"outline"}
                   className={"flex gap-1 cursor-pointer items-center"}><UserIcon></UserIcon>Login</Button>
-          <Button variant={"default"} className={"group relative cursor-pointer"}>
-            <b>100&#8364;</b>
-            <span className={"w-[1px] h-full bg-white/30 mx-3"}></span>
-            <div className={"flex items-center gap-1 transition duration-300 group-hover:opacity-0"}>
-              <ShoppingCartIcon className={"h-4 w-4"}></ShoppingCartIcon>
-              <b>3</b>
-            </div>
-            <ArrowRightIcon
-              className={"absolute w-5 right-5 transition -translate-x-2 duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"}></ArrowRightIcon>
-          </Button>
+          <CartDrawer>
+            <Button variant={"default"} className={"group relative cursor-pointer"}>
+              <b>100 &#8364;</b>
+              <span className={"w-[1px] h-full bg-white/30 mx-3"}></span>
+              <div className={"flex items-center gap-1 transition duration-300 group-hover:opacity-0"}>
+                <ShoppingCartIcon className={"h-4 w-4"}></ShoppingCartIcon>
+                <b>3</b>
+              </div>
+              <ArrowRightIcon
+                className={"absolute w-5 right-5 transition -translate-x-2 duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"}></ArrowRightIcon>
+            </Button>
+          </CartDrawer>
         </div>
       </Common>
     </header>

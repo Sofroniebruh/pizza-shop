@@ -7,7 +7,8 @@ import GroupVariants from "@/components/shared-components/group-variants";
 import { PizzaSizesType, PizzaTypeObject, PizzaTypes, PizzaTypesType } from "@/types/prisma-types";
 import { useSet } from "react-use";
 import IngredientItem from "@/components/shared-components/ingredient-item";
-import { CalcTotalPizzaPrice, usePizzaOptions } from "@/lib";
+import { CalcTotalPizzaPrice } from "@/lib";
+import { usePizzaOptions } from "@/components/hooks/usePizzaOptions";
 
 interface ProductFormProps {
   product: Product,
