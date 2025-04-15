@@ -4,9 +4,6 @@ import { ICartItem } from "@/store/cart";
 export const getCartItemDetails = (ingredients: ICartItem["extraIngredients"], pizzaType: PizzaTypesType, pizzaSize: PizzaSizesType): string => {
   const details = [];
 
-  console.log("Pizza size: " + pizzaSize);
-  console.log("Pizza type: " + pizzaType);
-
   if (pizzaType && pizzaSize) {
     const pizzaTypeName = PizzaTypes[pizzaType];
 

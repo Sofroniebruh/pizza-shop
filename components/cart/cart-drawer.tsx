@@ -19,11 +19,9 @@ export const CartDrawer = ({ children, className }: { children: React.ReactNode,
     fetchCartItems();
   }, []);
 
-  items.map((item, i) => {
-    console.log("Ingredients: ", item.extraIngredients);
-    console.log(item.productType);
-    console.log(item.size);
-  });
+  const onClickUpdateButton = (id: number, quantity: number, type: "plus" | "minus") => {
+    console.log(id, quantity, type);
+  };
 
   return (
     <Sheet>
@@ -44,7 +42,9 @@ export const CartDrawer = ({ children, className }: { children: React.ReactNode,
                               details={item.productType && item.size ? getCartItemDetails(item.extraIngredients, item.productType as PizzaTypesType, item.size as PizzaSizesType) : ""}
                               name={item.name}
                               price={item.price}
-                              quantity={item.quantity} />
+                              quantity={item.quantity}
+                              onClickUpdateQuantity={(type) => onClickUpdateButton(item.id, item.quantity, type)}
+              />
             ))
           }
         </div>

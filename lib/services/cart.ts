@@ -11,3 +11,16 @@ export async function GET_CART_ITEMS(): Promise<CartDTO> {
 
   throw new Error(response.statusText);
 }
+
+export async function UPDATE_CART_QUANTITY(itemId: number, quantity: number): Promise<CartDTO> {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/cart/${itemId}`, {
+    method: "PATCH",
+    body: JSON.stringify({ quantity: quantity }),
+  });
+
+  if (response.ok) {
+    return await response.json();
+  }
+
+  throw new Error(response.statusText);
+}
