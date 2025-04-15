@@ -22,7 +22,7 @@ export const CartDrawerItem = ({ imageUrl, name, details, price, quantity, onCli
         <div className={"flex items-center justify-between"}>
           <CountButtonSection value={quantity} onClick={onClickUpdateQuantity}></CountButtonSection>
           <div className={"flex items-center gap-3"}>
-            <h2 className={"font-bold"}>{price} &#8364;</h2>
+            <h2 className={"font-bold"}>{price.toFixed(2)} &#8364;</h2>
             <Trash2Icon className={"text-gray-400 cursor-pointer hover:text-gray-600"} size={16}></Trash2Icon>
           </div>
         </div>

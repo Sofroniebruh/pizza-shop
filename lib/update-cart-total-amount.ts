@@ -30,7 +30,7 @@ export const updateCartTotalAmount = async (token: string) => {
   const updatedPrice = Number(userCart.cartItems.reduce((acc, item) => {
     return (acc + calcCartTotalPrice(item));
   }, 0).toFixed(2));
-
+  
   return prismaClient.cart.update({
     where: {
       id: userCart.id,

@@ -15,10 +15,10 @@ model User {
   email            String            @unique
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
-  verificationCode VerificationCode?
   verified         DateTime?
   cart             Cart?
-  orders           Order[]
+  orders           Order?
+  verificationCode VerificationCode?
 }
 
 model Category {
@@ -33,10 +33,10 @@ model Product {
   imageUrl    String
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  categoryId  Int
   category    Category     @relation(fields: [categoryId], references: [id])
   variations  Variation[]
-  categoryId  Int
-  ingredients Ingredient[]
+  ingredients Ingredient[] @relation("IngredientToProduct")
 }
 
 model Variation {
@@ -44,9 +44,9 @@ model Variation {
   productType Int?
   size        Int?
   price       Int
-  product     Product    @relation(fields: [productId], references: [id])
   productId   Int
   cartItems   CartItem[]
+  product     Product    @relation(fields: [productId], references: [id])
 }
 
 model Ingredient {
@@ -54,33 +54,32 @@ model Ingredient {
   name      String
   imageUrl  String
   price     Float
-  products  Product[]
-  cartItems CartItem[]
+  cartItems CartItem[] @relation("CartItemToIngredient")
+  products  Product[]  @relation("IngredientToProduct")
 }
 
 model Cart {
   id         Int        @id @default(autoincrement())
-  cartItems  CartItem[]
   token      String
-  user       User?      @relation(fields: [userId], references: [id])
   userId     Int?       @unique
-  totalPrice Int        @default(0)
+  totalPrice Float      @default(0)
+  user       User?      @relation(fields: [userId], references: [id])
+  cartItems  CartItem[]
 }
 
 model CartItem {
   id                 Int          @id @default(autoincrement())
-  productVariation   Variation    @relation(fields: [productVariationId], references: [id])
   productVariationId Int
   quantity           Int
-  cart               Cart         @relation(fields: [cartId], references: [id])
   cartId             Int
-  extraIngredients   Ingredient[]
   createdAt          DateTime     @default(now())
+  cart               Cart         @relation(fields: [cartId], references: [id])
+  productVariation   Variation    @relation(fields: [productVariationId], references: [id])
+  extraIngredients   Ingredient[] @relation("CartItemToIngredient")
 }
 
 model Order {
   id          Int         @id @default(autoincrement())
-  user        User?       @relation(fields: [userId], references: [id])
   userId      Int?        @unique
   token       String
   totalPrice  Int
@@ -92,13 +91,14 @@ model Order {
   phoneNumber String
   address     String
   comment     String?
+  user        User?       @relation(fields: [userId], references: [id])
 }
 
 model VerificationCode {
   id     Int    @id @default(autoincrement())
-  user   User   @relation(fields: [userId], references: [id])
   userId Int    @unique
   code   String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 enum OrderStatus {

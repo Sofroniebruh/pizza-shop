@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@prisma/prisma-client";
 import { updateCartTotalAmount } from "@/lib";
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+// @ts-ignore
+export async function PATCH(req: NextRequest, { params }: Promise<{ params: { id: string } }>) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const data = (await req.json()) as { quantity: number };
     const token = req.cookies.get("cartToken")?.value;
 
