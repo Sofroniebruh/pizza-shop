@@ -70,7 +70,7 @@ model Cart {
 model CartItem {
   id                 Int          @id @default(autoincrement())
   productVariationId Int
-  quantity           Int
+  quantity           Int          @default(1)
   cartId             Int
   createdAt          DateTime     @default(now())
   cart               Cart         @relation(fields: [cartId], references: [id])
