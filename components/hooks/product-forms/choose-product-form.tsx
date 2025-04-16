@@ -6,9 +6,10 @@ interface ProductFormProps {
   product: Product,
   onClickAdd: VoidFunction,
   totalPrice: number,
+  loading: boolean,
 }
 
-export default function ProductForm({ product, onClickAdd, totalPrice }: ProductFormProps) {
+export default function ProductForm({ product, onClickAdd, totalPrice, loading }: ProductFormProps) {
   return (
     <div className={"flex h-[500px]"}>
       <div className={"w-1/2 flex items-center justify-center"}>
@@ -20,7 +21,7 @@ export default function ProductForm({ product, onClickAdd, totalPrice }: Product
             {product.name}
           </h1>
         </div>
-        <Button className={"cursor-pointer h-11"}><p>Add to cart for <span
+        <Button loading={loading} onClick={onClickAdd} className={"cursor-pointer h-11"}><p>Add to cart for <span
           className={"font-bold"}>{totalPrice}&#8364;</span></p></Button>
       </div>
     </div>

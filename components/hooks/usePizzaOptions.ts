@@ -7,6 +7,7 @@ export const usePizzaOptions = (availablePizza: Variation[]) => {
   const [pizzaType, setPizzaType] = useState<PizzaTypesType>(1);
   const [pizzaSize, setPizzaSize] = useState<PizzaSizesType>(20);
   const availableSizes = GetAvailablePizzaSizes(pizzaType, availablePizza);
+  const currentItemId = availablePizza.find((availablePizza) => availablePizza.size == pizzaSize && availablePizza.productType == pizzaType)?.id;
 
   useEffect(() => {
     const isAvailableSize = availableSizes.find((item) => Number(item.value) == pizzaSize && !item.disabled);
@@ -23,5 +24,6 @@ export const usePizzaOptions = (availablePizza: Variation[]) => {
     pizzaSize,
     setPizzaSize,
     availableSizes,
+    currentItemId,
   };
 };

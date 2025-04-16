@@ -7,12 +7,41 @@ import ProductForm from "@/components/hooks/product-forms/choose-product-form";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ProductWithRelations } from "@/types/prisma-types";
 import PizzaForm from "@/components/hooks/product-forms/choose-pizza-form";
+import { useCartStore } from "@/store/cart";
+import { toast } from "react-hot-toast";
 
 export default function Modal({ product }: { product: ProductWithRelations }) {
   const router = useRouter();
-  const isPizza = Boolean(product.variations[0].productType);
-  const add = () => {
+  const firstItem = product.variations[0];
+  const isPizza = Boolean(firstItem.productType);
+  const addCartItem = useCartStore(state => state.addCartItem);
+  const loading = useCartStore(state => state.loading);
 
+  const onAddPizza = (variationId: number, ingredients: number[]) => {
+    try {
+      addCartItem({
+        variationId,
+        ingredients,
+      });
+      toast.success("Successfully added pizza to cart");
+      router.back();
+    } catch (error) {
+      console.error(error);
+      toast.error("Error adding pizza to cart");
+    }
+  };
+
+  const onAddProduct = () => {
+    try {
+      addCartItem({
+        variationId: firstItem.id,
+      });
+      toast.success("Successfully added product to cart");
+      router.back();
+    } catch (error) {
+      console.error(error);
+      toast.error("Error adding product to cart");
+    }
   };
 
   return (
@@ -22,10 +51,11 @@ export default function Modal({ product }: { product: ProductWithRelations }) {
         {
           isPizza
             ?
-            (<PizzaForm ingredients={product.ingredients} product={product} onClickAdd={add}
-                        variations={product.variations} />)
+            (<PizzaForm ingredients={product.ingredients} loading={loading} product={product} onClickAdd={onAddPizza}
+                        variations={product.variations}
+            />)
             :
-            (<ProductForm product={product} onClickAdd={add} totalPrice={12} />)
+            (<ProductForm loading={loading} product={product} onClickAdd={onAddProduct} totalPrice={firstItem.price} />)
         }
 
       </DialogContent>

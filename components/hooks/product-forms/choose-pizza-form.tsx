@@ -12,15 +12,29 @@ import { usePizzaOptions } from "@/components/hooks/usePizzaOptions";
 
 interface ProductFormProps {
   product: Product,
-  onClickAdd: VoidFunction,
+  onClickAdd: (itemId: number, ingredients: number[]) => void,
   ingredients: Ingredient[],
   variations: Variation[],
+  loading: boolean,
 }
 
-export default function PizzaForm({ product, onClickAdd, variations, ingredients }: ProductFormProps) {
+export default function PizzaForm({ product, onClickAdd, variations, ingredients, loading }: ProductFormProps) {
   const [chosenIngredients, { toggle: setIngredients }] = useSet(new Set<number>([]));
-  const { pizzaType, pizzaSize, setPizzaSize, setPizzaType, availableSizes } = usePizzaOptions(variations);
+  const {
+    pizzaType,
+    pizzaSize,
+    setPizzaSize,
+    setPizzaType,
+    availableSizes,
+    currentItemId,
+  } = usePizzaOptions(variations);
   const totalPrice = CalcTotalPizzaPrice(pizzaSize, pizzaType, variations, ingredients, chosenIngredients);
+
+  const handleAdd = () => {
+    if (currentItemId) {
+      onClickAdd(currentItemId, Array.from(chosenIngredients));
+    }
+  };
 
   return (
     <div className={"flex h-[600px]"}>
@@ -47,7 +61,7 @@ export default function PizzaForm({ product, onClickAdd, variations, ingredients
             ))}
           </div>
         </div>
-        <Button className={"cursor-pointer h-11"}><p>Add to cart for <span
+        <Button loading={loading} onClick={handleAdd} className={"cursor-pointer h-11"}><p>Add to cart for <span
           className={"font-bold"}>{totalPrice}&#8364;</span></p></Button>
       </div>
     </div>
