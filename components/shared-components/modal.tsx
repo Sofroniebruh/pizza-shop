@@ -17,11 +17,11 @@ export default function Modal({ product }: { product: ProductWithRelations }) {
   const addCartItem = useCartStore(state => state.addCartItem);
   const loading = useCartStore(state => state.loading);
 
-  const onAddPizza = (variationId: number, ingredients: number[]) => {
+  const onAddPizza = (variationId: number, ingredientsId: number[]) => {
     try {
       addCartItem({
         variationId,
-        ingredients,
+        ingredientsId,
       });
       toast.success("Successfully added pizza to cart");
       router.back();
