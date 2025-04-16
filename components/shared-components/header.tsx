@@ -1,3 +1,5 @@
+"use client";
+
 import Common from "@/components/shared-components/common";
 import Image from "next/image";
 import { Button } from "@/components/ui";
@@ -5,8 +7,14 @@ import { ArrowRightIcon, ShoppingCartIcon, UserIcon } from "lucide-react";
 import HeaderInput from "@/components/shared-components/header-input";
 import Link from "next/link";
 import { CartDrawer } from "@/components/cart";
+import { useCartStore } from "@/store/cart";
+import { cn } from "@/lib/utils";
 
 export default function HeaderElement() {
+  const totalAmount = useCartStore(state => state.totalAmount);
+  const loading = useCartStore(state => state.loading);
+  const items = useCartStore(state => state.items);
+
   return (
     <header className={"border-b border-gray-200"}>
       <Common className="flex items-center justify-between py-8">
@@ -26,12 +34,13 @@ export default function HeaderElement() {
           <Button variant={"outline"}
                   className={"flex gap-1 cursor-pointer items-center"}><UserIcon></UserIcon>Login</Button>
           <CartDrawer>
-            <Button variant={"default"} className={"group relative cursor-pointer"}>
-              <b>100 &#8364;</b>
+            <Button loading={loading} variant={"default"}
+                    className={cn("group relative cursor-pointer", loading ? "w-[109px]" : "")}>
+              <b>{totalAmount} &#8364;</b>
               <span className={"w-[1px] h-full bg-white/30 mx-3"}></span>
               <div className={"flex items-center gap-1 transition duration-300 group-hover:opacity-0"}>
                 <ShoppingCartIcon className={"h-4 w-4"}></ShoppingCartIcon>
-                <b>3</b>
+                <b>{items.length}</b>
               </div>
               <ArrowRightIcon
                 className={"absolute w-5 right-5 transition -translate-x-2 duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"}></ArrowRightIcon>

@@ -80,17 +80,19 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    await prismaClient.cartItem.create({
-      data: {
-        cartId: userCart.id,
-        productVariationId: data.variationId,
-        quantity: 1,
-        extraIngredients: {
-          connect: data.ingredientsId?.map((id) => ({ id })),
+    if (!findCartItem) {
+      await prismaClient.cartItem.create({
+        data: {
+          cartId: userCart.id,
+          productVariationId: data.variationId,
+          quantity: 1,
+          extraIngredients: {
+            connect: data.ingredientsId?.map((id) => ({ id })),
+          },
         },
-      },
-    });
-    
+      });
+    }
+
     const updatedUserCart = await updateCartTotalAmount(token);
     const resp = NextResponse.json(updatedUserCart);
 
