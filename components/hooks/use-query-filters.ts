@@ -6,14 +6,19 @@ import qs from "qs";
 export const useQueryFilters = (filters: Filters) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const params = {
+
+  const memoizedFilters = useMemo(() => ({
     ...filters.prices,
     pizzaTypes: Array.from(filters.pizzaTypes),
     sizes: Array.from(filters.pizzaSizes),
     ingredients: Array.from(filters.selectedIngredients),
-  };
-
-  const memoizedFilters = useMemo(() => params, [params]);
+  }), [
+    filters.prices.priceFrom,
+    filters.prices.priceTo,
+    filters.pizzaSizes,
+    filters.pizzaTypes,
+    filters.selectedIngredients,
+  ]);
 
   useEffect(() => {
     const query = qs.stringify(memoizedFilters, { arrayFormat: "comma" });

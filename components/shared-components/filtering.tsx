@@ -18,7 +18,6 @@ export default function Filtering({ className }: { className?: string }) {
     text: ingredient.name,
   }));
 
-
   return (
     <div className={className}>
       <h3 className={"text-xl font-semibold pb-8"}>Filtering</h3>

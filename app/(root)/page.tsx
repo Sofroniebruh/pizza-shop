@@ -2,19 +2,14 @@ import Common from "@/components/shared-components/common";
 import TopBar from "@/components/shared-components/top-bar";
 import Filtering from "@/components/shared-components/filtering";
 import CardsItems from "@/components/shared-components/cards-items";
-import { prismaClient } from "@prisma/prisma-client";
+import { findPizzas, GetSearchParams } from "@/lib/find-pizzas";
 
-export default async function Home() {
-  const categories = await prismaClient.category.findMany({
-    include: {
-      products: {
-        include: {
-          ingredients: true,
-          variations: true,
-        },
-      },
-    },
-  });
+export default async function Home({
+                                     searchParams,
+                                   }: {
+  searchParams: GetSearchParams;
+}) {
+  const categories = await findPizzas(await searchParams);
 
   return (
     <>

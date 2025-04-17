@@ -15,11 +15,16 @@ export default function Categories({ className, categories }: { className?: stri
   };
 
   return (
-    <div className={cn("inline-flex rounded-2xl gap-1 bg-gray-50 p-1", className)}>
-      {categories.map((category, index) => (
-        <button onClick={() => handleScroll(category.name)} key={index}
-                className={cn("h-11 font-bold flex items-center rounded-2xl p-5", selectedIndex === index + 1 && "text-primary bg-white shadow-md shadow-gray-200", "cursor-pointer")}>{category.name}</button>
-      ))}
-    </div>
+    <>
+      {categories.length > 0 ?
+        <div className={cn("inline-flex rounded-2xl gap-1 bg-gray-50 p-1", className)}>
+          {categories.map((category, index) => (
+            <button onClick={() => handleScroll(category.name)} key={index}
+                    className={cn("h-11 font-bold flex items-center rounded-2xl p-5", selectedIndex === index + 1 && "text-primary bg-white shadow-md shadow-gray-200", "cursor-pointer")}>{category.name}</button>
+          ))}
+        </div>
+        : <div></div>
+      }
+    </>
   );
 }
