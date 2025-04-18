@@ -55,18 +55,24 @@ export async function POST(req: NextRequest) {
     const userCart = await findOrCreateCart(token);
     const data = (await req.json()) as CreateCartItemValues;
 
-    const findCartItem = await prismaClient.cartItem.findFirst({
+    const matchingItems = await prismaClient.cartItem.findMany({
       where: {
         cartId: userCart.id,
         productVariationId: data.variationId,
-        extraIngredients: {
-          every: {
-            id: {
-              in: data.ingredientsId,
-            },
-          },
-        },
       },
+      include: {
+        extraIngredients: true,
+      },
+    });
+
+    const findCartItem = matchingItems.find((item) => {
+      const existingIds = item.extraIngredients.map((ingredient) => ingredient.id).sort();
+      const incomingIds = [...data.ingredientsId ?? []].sort();
+
+      return (
+        existingIds.length === incomingIds.length &&
+        existingIds.every((id, index) => id === incomingIds[index])
+      );
     });
 
     if (findCartItem) {
