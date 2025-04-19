@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Sheet,
   SheetClose,
@@ -13,23 +13,15 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
-import { useCartStore } from "@/store/cart";
 import { CartDrawerItem } from "@/components/cart/cart-drawer-item";
 import { getCartItemDetails } from "@/lib";
 import { PizzaSizesType, PizzaTypesType } from "@/types/prisma-types";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { UseCart } from "@/components/hooks/use-cart";
 
 export const CartDrawer = ({ children, className }: { children: React.ReactNode, className?: string }) => {
-  const fetchCartItems = useCartStore(state => state.fetchCartItems);
-  const updateItemQuantity = useCartStore(state => state.updateItemQuantity);
-  const removeCartItem = useCartStore(state => state.removeCartItem);
-  const totalAmount = useCartStore(state => state.totalAmount);
-  const items = useCartStore(state => state.items);
-
-  useEffect(() => {
-    fetchCartItems();
-  }, []);
+  const { removeCartItem, items, updateItemQuantity, totalAmount } = UseCart();
 
   const onClickUpdateButton = (id: number, quantity: number, type: "plus" | "minus") => {
     const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;

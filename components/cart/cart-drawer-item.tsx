@@ -11,16 +11,17 @@ interface Props extends CartItemProps {
   removeCartItem?: () => void;
 }
 
-export const CartDrawerItem = ({
-                                 id,
-                                 imageUrl,
-                                 name,
-                                 details,
-                                 price,
-                                 quantity,
-                                 onClickUpdateQuantity,
-                                 removeCartItem,
-                               }: Props) => {
+export const CartDrawerItem = (
+  {
+    id,
+    imageUrl,
+    name,
+    details,
+    price,
+    quantity,
+    onClickUpdateQuantity,
+    removeCartItem,
+  }: Props) => {
   return (
     <div className={"flex bg-white p-5 gap-6"}>
       <div className={"flex items-center"}>
