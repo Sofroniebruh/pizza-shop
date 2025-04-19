@@ -1,9 +1,9 @@
 import { WhiteBlock } from "@/components/shared-components/white-box";
 import { FormInput } from "@/components/form/form-input";
 
-export const PersonalDetails = () => {
+export const PersonalDetails = ({ className }: { className?: string }) => {
   return (
-    <WhiteBlock title={"2. Personal details"}>
+    <WhiteBlock title={"2. Personal details"} className={className}>
       <div className={"grid gap-5 grid-cols-2"}>
         <FormInput name={"firstName"} className={"text-base rounded-sm"} placeholder={"First name"}></FormInput>
         <FormInput name={"lastName"} className={"text-base rounded-sm"} placeholder={"Last name"}></FormInput>

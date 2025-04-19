@@ -11,7 +11,7 @@ import { AddressForm } from "@/components/form/address-form";
 import { WhiteBoxSide } from "@/components/shared-components/white-box-side";
 
 export default function Checkout() {
-  const { removeCartItem, items, updateItemQuantity, totalAmount } = UseCart();
+  const { removeCartItem, items, updateItemQuantity, totalAmount, loading } = UseCart();
   const form = useForm<CheckoutFormSchema>({
     resolver: zodResolver(checkoutFormSchema),
     defaultValues: {
@@ -40,12 +40,13 @@ export default function Checkout() {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className={"flex gap-10"}>
             <div className={"flex flex-col gap-10 flex-1 mb-20"}>
-              <CartForm items={items} onClickCountButton={onClickCountButton} removeCartItem={removeCartItem} />
-              <PersonalDetails />
-              <AddressForm />
+              <CartForm loading={loading} items={items}
+                        onClickCountButton={onClickCountButton} removeCartItem={removeCartItem} />
+              <PersonalDetails className={loading ? "opacity-40 pointer-events-none" : ""} />
+              <AddressForm className={loading ? "opacity-40 pointer-events-none" : ""} />
             </div>
             <div className={"w-[450px]"}>
-              <WhiteBoxSide total={totalAmount}></WhiteBoxSide>
+              <WhiteBoxSide total={totalAmount} loading={loading}></WhiteBoxSide>
             </div>
           </div>
         </form>

@@ -9,6 +9,7 @@ export const UseCart = () => {
   const removeCartItem = useCartStore(state => state.removeCartItem);
   const totalAmount = useCartStore(state => state.totalAmount);
   const items = useCartStore(state => state.items);
+  const loading = useCartStore(state => state.loading);
 
   useEffect(() => {
     fetchCartItems();
@@ -19,5 +20,6 @@ export const UseCart = () => {
     removeCartItem,
     totalAmount,
     items,
+    loading,
   };
 };

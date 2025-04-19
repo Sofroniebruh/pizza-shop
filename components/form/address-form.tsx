@@ -26,7 +26,7 @@ export const AddressForm: React.FC<Props> = ({ className }) => {
   const errorText = errors["address"]?.message?.toString();
 
   return (
-    <WhiteBlock title={"3. Delivery address"}>
+    <WhiteBlock title={"3. Delivery address"} className={className}>
       <div className={"flex flex-col gap-5"}>
         <div className={"relative"}>
           <div className={"relative"}>
