@@ -30,15 +30,21 @@ export const AddressForm: React.FC<Props> = ({ className }) => {
       <div className={"flex flex-col gap-5"}>
         <div className={"relative"}>
           <div className={"relative"}>
-            <Input {...register("address")} className={"h-12 text-md rounded-sm"}
-                   placeholder={"Your address for delivery"} />
+            <Input
+              {...register("address")}
+              className={"h-12 text-md rounded-sm"}
+              placeholder={"Your address for delivery"}
+            />
             {value && <ClearButton onClick={onClick}></ClearButton>}
           </div>
           {errorText && <ErrorText text={errorText} className={"mt-2"} />}
         </div>
-        <Textarea rows={5} className={"text-base"} placeholder={"Your comment to the order..."}></Textarea>
+        <Textarea
+          rows={5}
+          className={"text-base"}
+          placeholder={"Your comment to the orders..."}
+        ></Textarea>
       </div>
     </WhiteBlock>
-  )
-    ;
+  );
 };

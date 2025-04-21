@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         },
       ],
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success?id=${data.orderId}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/cancel?id=${data.orderId}`,
     });
 

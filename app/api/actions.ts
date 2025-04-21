@@ -5,6 +5,8 @@ import { cookies } from "next/headers";
 import { prismaClient } from "@prisma/prisma-client";
 import { OrderStatus } from "@prisma/client";
 import { API } from "@/lib/services/api_client";
+import { sendEmail } from "@/lib/sendEmails";
+import { SuccessOrderTemplate } from "@/components/email-templates/success-order";
 
 export async function createOrder(data: CheckoutFormSchema) {
   try {
@@ -104,6 +106,42 @@ export async function cancelOrder(id: string) {
         status: OrderStatus.CANCELED,
       },
     });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function PROCESS_ORDER(id: string) {
+  try {
+    const order = await prismaClient.order.findFirst({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!order) {
+      return;
+    }
+
+    await prismaClient.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        status: OrderStatus.COMPLETED,
+      },
+    });
+
+    const props = {
+      orderId: order.id,
+      totalAmount: order.totalPrice,
+    };
+
+    sendEmail(
+      order.email,
+      "Order " + order.id + " processed successfully",
+      SuccessOrderTemplate(props),
+    );
   } catch (err) {
     console.log(err);
   }
