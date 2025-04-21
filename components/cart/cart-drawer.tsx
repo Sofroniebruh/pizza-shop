@@ -88,8 +88,8 @@ export const CartDrawer = ({ children, className }: { children: React.ReactNode,
                 {totalAmount} &#8364;
               </span>
                   </div>
-                  <Link href={"#"}>
-                    <Button type={"submit"} className={"w-full h-12 text-base"}>
+                  <Link href={"/checkout"}>
+                    <Button type={"submit"} className={"w-full h-12 text-base cursor-pointer"}>
                       Checkout <ArrowRightIcon className={"w-5 ml-2"} />
                     </Button>
                   </Link>

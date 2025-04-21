@@ -64,7 +64,7 @@ CREATE TABLE "Cart" (
     "id" SERIAL NOT NULL,
     "token" TEXT NOT NULL,
     "userId" INTEGER,
-    "totalPrice" INTEGER NOT NULL DEFAULT 0,
+    "totalPrice" DOUBLE PRECISION NOT NULL DEFAULT 0,
 
     CONSTRAINT "Cart_pkey" PRIMARY KEY ("id")
 );
@@ -73,8 +73,9 @@ CREATE TABLE "Cart" (
 CREATE TABLE "CartItem" (
     "id" SERIAL NOT NULL,
     "productVariationId" INTEGER NOT NULL,
-    "quantity" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL DEFAULT 1,
     "cartId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "CartItem_pkey" PRIMARY KEY ("id")
 );
@@ -85,7 +86,7 @@ CREATE TABLE "Order" (
     "userId" INTEGER,
     "token" TEXT NOT NULL,
     "totalPrice" INTEGER NOT NULL,
-    "paymentId" INTEGER NOT NULL,
+    "paymentId" INTEGER,
     "status" "OrderStatus" NOT NULL,
     "items" JSONB NOT NULL,
     "fullName" TEXT NOT NULL,
@@ -153,10 +154,10 @@ ALTER TABLE "Variation" ADD CONSTRAINT "Variation_productId_fkey" FOREIGN KEY ("
 ALTER TABLE "Cart" ADD CONSTRAINT "Cart_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_productVariationId_fkey" FOREIGN KEY ("productVariationId") REFERENCES "Variation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_productVariationId_fkey" FOREIGN KEY ("productVariationId") REFERENCES "Variation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
