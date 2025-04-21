@@ -4,8 +4,7 @@ import { CheckoutFormSchema } from "@/components/form/schema";
 import { cookies } from "next/headers";
 import { prismaClient } from "@prisma/prisma-client";
 import { OrderStatus } from "@prisma/client";
-import { sendEmail } from "@/lib/sendEmails";
-import { PayOrderTemplate } from "@/components/email-templates/pay-order";
+import { API } from "@/lib/services/api_client";
 
 export async function createOrder(data: CheckoutFormSchema) {
   try {
@@ -72,17 +71,39 @@ export async function createOrder(data: CheckoutFormSchema) {
       },
     });
 
-    const paymentUrl = "https://resend.com/docs/send-with-nextjs";
+    const response = (await API.checkout.CHECKOUT(
+      order.totalPrice,
+      order.id,
+    )) as {
+      url: string;
+      id: string;
+    };
 
-    await sendEmail(
-      data.email,
-      "Next Pizza / Оплатите заказ #" + order.id,
-      PayOrderTemplate({
-        orderId: order.id,
-        totalAmount: order.totalAmount,
-        paymentUrl,
-      }),
-    );
+    await prismaClient.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        paymentId: response.id,
+      },
+    });
+
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function cancelOrder(id: string) {
+  try {
+    await prismaClient.order.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        status: OrderStatus.CANCELED,
+      },
+    });
   } catch (err) {
     console.log(err);
   }

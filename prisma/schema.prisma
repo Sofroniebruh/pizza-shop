@@ -83,7 +83,7 @@ model Order {
   userId      Int?        @unique
   token       String
   totalPrice  Int
-  paymentId   Int?
+  paymentId   String?
   status      OrderStatus
   items       Json
   fullName    String

@@ -15,10 +15,14 @@ import { WhiteBoxSide } from "@/components/shared-components/white-box-side";
 import { useState } from "react";
 import { createOrder } from "@/app/api/actions";
 import { toast } from "react-hot-toast";
+import { loadStripe } from "@stripe/stripe-js";
 
 export default function Checkout() {
   const { removeCartItem, items, updateItemQuantity, totalAmount, loading } =
     UseCart();
+  const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
+  );
   const [submitting, setSubmitting] = useState(false);
   const form = useForm<CheckoutFormSchema>({
     resolver: zodResolver(checkoutFormSchema),
@@ -41,28 +45,39 @@ export default function Checkout() {
     updateItemQuantity(id, newQuantity);
   };
 
-  const onSubmit = async (data: CheckoutFormSchema) => {
+  const handleCheckout = async (formData: CheckoutFormSchema) => {
+    setSubmitting(true);
+
     try {
-      setSubmitting(true);
+      const response = await createOrder(formData);
 
-      const url = await createOrder(data);
+      if (!response) {
+        toast.error("Error retrieving data");
 
-      toast.error(
-        "Order was created successfully! Redirecting to payment page",
-        {
-          icon: "✅",
-        },
-      );
-
-      if (url) {
-        location.href = url;
+        return;
       }
+
+      const url = response.url;
+      const stripe = await stripePromise;
+
+      if (!url) {
+        toast.error("No payment URL returned.");
+
+        return;
+      }
+
+      if (!stripe) {
+        toast.error("Error creating stripe");
+
+        return;
+      }
+
+      window.location.href = url;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      toast.error("Something went wrong.");
+    } finally {
       setSubmitting(false);
-      toast.error("Error creating the order", {
-        icon: "❌",
-      });
     }
   };
 
@@ -70,7 +85,7 @@ export default function Checkout() {
     <Common className={"mt-10"}>
       <h1 className={"text-3xl font-semibold mb-8"}>Order</h1>
       <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit((data) => handleCheckout(data))}>
           <div className={"flex gap-10"}>
             <div className={"flex flex-col gap-10 flex-1 mb-20"}>
               <CartForm
