@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
+import { Providers } from "@/components/shared-components/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,22 +13,21 @@ const geistMono = Geist_Mono({
 });
 
 export default function RootLayout({
-                                     children,
-                                   }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-    <head>
-      <link href="/logo.png" rel={"icon"} data-rh={"true"}></link>
-      <title></title>
-    </head>
-    <body
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-    >
-    {children}
-    <Toaster></Toaster>
-    </body>
+      <head>
+        <link href="/logo.png" rel={"icon"} data-rh={"true"}></link>
+        <title></title>
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

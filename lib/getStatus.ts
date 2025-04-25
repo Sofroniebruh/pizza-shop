@@ -12,14 +12,10 @@ export const GetStatus = (id: string) => {
     try {
       const order = await API.orders.GET_ORDER(id);
 
-      console.log("The order: ", order);
-      console.log("huh: ", order.paymentId);
-
       if (!order || !order.paymentId) {
         throw new Error("No orders or Payment id provided!");
       }
       const response = await API.checkout.CHECK_PAYMENT_STATUS(order.paymentId);
-      console.log("Status: ", response.payment_status);
       switch (response.payment_status) {
         case "paid":
           setIsProcessed("paid");

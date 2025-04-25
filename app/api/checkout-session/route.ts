@@ -7,7 +7,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: NextRequest) {
   const id = (await req.json()) as { sessionId: string };
-  console.log("ID: ", id.sessionId);
 
   if (!id) {
     return NextResponse.json(
@@ -18,10 +17,11 @@ export async function POST(req: NextRequest) {
 
   try {
     const session = await stripe.checkout.sessions.retrieve(id.sessionId);
-    console.log("Stripe session, " + session);
+
     return NextResponse.json({ payment_status: session.payment_status });
   } catch (err) {
     console.log(err);
+
     return NextResponse.json(
       { error: "Failed to retrieve session" },
       { status: 500 },
